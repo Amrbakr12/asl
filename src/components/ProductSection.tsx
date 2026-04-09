@@ -17,13 +17,13 @@ export default function ProductSection() {
             className="text-4xl md:text-5xl font-black mb-4"
             style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif" }}
           >
-            اختر لونك،
+            اختار لونك،
             <br />
-            <span className="gradient-text">عبّر عن أصلك</span>
+            <span className="gradient-text">وعبّر عن ستايلك</span>
           </h2>
           <div className="section-divider mx-auto mt-6" />
           <p className="mt-6 text-base" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>
-            اضغط على أي منتج لرؤية التفاصيل وإتمام طلبك
+            دوس على أي منتج عشان تشوف التفاصيل وتكمل طلبك
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function ProductSection() {
                       boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
                     }}
                   >
-                    عرض التفاصيل ←
+                    شوف التفاصيل ←
                   </span>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function ProductSection() {
                       fontFamily: "Cairo, sans-serif",
                     }}
                   >
-                    اطلب الآن
+                    اطلب دلوقتي
                   </span>
                 </div>
               </div>

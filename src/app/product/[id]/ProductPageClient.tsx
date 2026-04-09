@@ -11,11 +11,14 @@ import { z } from "zod";
 import toast from "react-hot-toast";
 
 const orderSchema = z.object({
-  name: z.string().min(3, "الرجاء إدخال الاسم الكامل"),
-  address: z.string().min(10, "الرجاء إدخال العنوان بالتفصيل"),
+  name: z.string().min(3, "من فضلك اكتب الاسم الكامل"),
+  phone: z
+    .string()
+    .regex(/^(?:\+20|0)?1[0-2,5]\d{8}$/, "من فضلك اكتب رقم موبايل مصري صحيح"),
+  address: z.string().min(10, "من فضلك اكتب العنوان بالتفصيل"),
 });
 
-type FormErrors = Partial<Record<"name" | "address", string>>;
+type FormErrors = Partial<Record<"name" | "phone" | "address", string>>;
 
 export default function ProductPageClient({ product }: { product: Product }) {
   const router = useRouter();
@@ -29,7 +32,9 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
   // Form state
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [notes, setNotes] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -54,12 +59,12 @@ export default function ProductPageClient({ product }: { product: Product }) {
     });
     setAddedFeedback(true);
     setCartOpen(true);
-    toast.success(`✅ تمت الإضافة: ${selectedColor.color} - ${selectedSize}`);
+    toast.success(`✅ اتضاف للسلة: ${selectedColor.color} - ${selectedSize}`);
     setTimeout(() => setAddedFeedback(false), 1500);
   };
 
   const validate = () => {
-    const result = orderSchema.safeParse({ name, address });
+    const result = orderSchema.safeParse({ name, phone, address });
     if (!result.success) {
       const errs: FormErrors = {};
       result.error.issues.forEach((e) => {
@@ -75,22 +80,22 @@ export default function ProductPageClient({ product }: { product: Product }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (items.length === 0) { toast.error("أضف منتجاً للسلة أولاً"); return; }
-    if (!validate()) { toast.error("الرجاء تصحيح الأخطاء"); return; }
+    if (items.length === 0) { toast.error("ضيف منتج للسلة الأول"); return; }
+    if (!validate()) { toast.error("من فضلك صحح الأخطاء"); return; }
 
     setIsLoading(true);
     try {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, address, items }),
+        body: JSON.stringify({ name, phone, address, notes, items }),
       });
       if (!res.ok) throw new Error();
       setIsSuccess(true);
       clearCart();
-      toast.success("🎉 تم تسجيل طلبك بنجاح!", { duration: 6000 });
+      toast.success("🎉 طلبك اتسجل بنجاح!", { duration: 6000 });
     } catch {
-      toast.error("حدث خطأ، الرجاء المحاولة مرة أخرى.");
+      toast.error("حصلت مشكلة، جرّب تاني.");
     } finally {
       setIsLoading(false);
     }
@@ -104,16 +109,16 @@ export default function ProductPageClient({ product }: { product: Product }) {
           <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl"
             style={{ background: "var(--accent)", boxShadow: "0 0 50px rgba(74,87,56,0.35)" }}>✓</div>
           <h2 className="text-4xl font-black mb-4" style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif" }}>
-            تم تسجيل طلبك! 🎉
+            طلبك اتسجل! 🎉
           </h2>
           <p className="text-lg mb-8" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>
-            سيتواصل معك فريقنا خلال 24 ساعة لتأكيد الطلب والتوصيل.
+            فريقنا هيتواصل معاك خلال 24 ساعة عشان تأكيد الطلب والتوصيل.
           </p>
           <div className="flex gap-4 justify-center">
-            <button onClick={() => { setIsSuccess(false); setName(""); setAddress(""); }}
+            <button onClick={() => { setIsSuccess(false); setName(""); setPhone(""); setAddress(""); setNotes(""); }}
               className="btn-primary text-white font-bold py-3 px-8 rounded-2xl cursor-pointer"
               style={{ fontFamily: "Cairo, sans-serif" }}>
-              طلب جديد
+              اعمل طلب جديد
             </button>
             <button onClick={() => router.push("/")}
               className="font-bold py-3 px-8 rounded-2xl cursor-pointer transition-all hover:bg-[var(--sand)]"
@@ -135,7 +140,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
         style={{ background: "rgba(253,248,239,0.92)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(226,213,191,0.5)" }}>
         <button onClick={() => router.push("/")} className="flex items-center gap-2 cursor-pointer group">
           <span className="text-xl transition-transform group-hover:-translate-x-1" style={{ color: "var(--muted)" }}>←</span>
-          <span className="text-sm font-semibold" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>العودة</span>
+          <span className="text-sm font-semibold" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>رجوع</span>
         </button>
         <span className="text-3xl font-black shimmer-text" style={{ fontFamily: "Cairo, sans-serif" }}>أصل</span>
 
@@ -179,11 +184,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
               {items.length === 0 ? (
                 <div className="text-center py-16">
                   <p className="text-5xl mb-4">🛍️</p>
-                  <p style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>السلة فارغة</p>
+                  <p style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>السلة فاضية</p>
                   <button onClick={() => setCartOpen(false)}
                     className="mt-6 btn-primary text-white font-bold py-3 px-8 rounded-2xl cursor-pointer"
                     style={{ fontFamily: "Cairo, sans-serif" }}>
-                    تصفح المنتجات
+                    شوف المنتجات
                   </button>
                 </div>
               ) : (
@@ -252,12 +257,27 @@ export default function ProductPageClient({ product }: { product: Product }) {
                     {errors.name && <p className="text-xs mt-1" style={{ color: "#c0392b", fontFamily: "Cairo, sans-serif" }}>⚠ {errors.name}</p>}
                   </div>
                   <div>
+                    <input id="cart-phone" type="tel" placeholder="رقم الموبايل *"
+                      value={phone} onChange={(e) => { setPhone(e.target.value); setErrors(p => ({ ...p, phone: undefined })); }}
+                      className="form-input w-full py-3 px-4 text-sm"
+                      style={{ fontFamily: "Cairo, sans-serif", color: "var(--charcoal)", borderColor: errors.phone ? "#c0392b" : undefined }}
+                      disabled={isLoading} />
+                    {errors.phone && <p className="text-xs mt-1" style={{ color: "#c0392b", fontFamily: "Cairo, sans-serif" }}>⚠ {errors.phone}</p>}
+                  </div>
+                  <div>
                     <textarea id="cart-address" rows={2} placeholder="العنوان بالتفصيل *"
                       value={address} onChange={(e) => { setAddress(e.target.value); setErrors(p => ({ ...p, address: undefined })); }}
                       className="form-input w-full py-3 px-4 text-sm resize-none"
                       style={{ fontFamily: "Cairo, sans-serif", color: "var(--charcoal)", borderColor: errors.address ? "#c0392b" : undefined }}
                       disabled={isLoading} />
                     {errors.address && <p className="text-xs mt-1" style={{ color: "#c0392b", fontFamily: "Cairo, sans-serif" }}>⚠ {errors.address}</p>}
+                  </div>
+                  <div>
+                    <textarea id="cart-notes" rows={2} placeholder="ملاحظات (اختياري)"
+                      value={notes} onChange={(e) => setNotes(e.target.value)}
+                      className="form-input w-full py-3 px-4 text-sm resize-none"
+                      style={{ fontFamily: "Cairo, sans-serif", color: "var(--charcoal)" }}
+                      disabled={isLoading} />
                   </div>
                   <button type="submit" id="cart-submit-btn" disabled={isLoading}
                     className="btn-primary w-full text-white font-black py-4 rounded-2xl text-lg cursor-pointer flex items-center justify-center gap-3 disabled:opacity-70"
@@ -271,7 +291,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
                         <span>جاري الإرسال...</span>
                       </>
                     ) : (
-                      <span>تأكيد الطلب ✦</span>
+                      <span>أكد الطلب ✦</span>
                     )}
                   </button>
                 </form>
@@ -435,11 +455,11 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 }}
               >
                 {addedFeedback ? (
-                  <span>✅ تمت الإضافة!</span>
+                  <span>✅ اتضاف للسلة!</span>
                 ) : (
                   <>
                     <span>🛒</span>
-                    <span>أضف للسلة</span>
+                    <span>ضيف للسلة</span>
                     {totalItems > 0 && (
                       <span className="px-2 py-0.5 rounded-full text-sm font-bold"
                         style={{ background: "rgba(255,255,255,0.25)" }}>
@@ -455,7 +475,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
                 <button onClick={() => setCartOpen(true)}
                   className="w-full font-bold py-4 rounded-2xl text-lg cursor-pointer transition-all hover:bg-[var(--sand)]"
                   style={{ border: "2px solid var(--primary)", color: "var(--primary)", fontFamily: "Cairo, sans-serif" }}>
-                  عرض السلة وتأكيد الطلب ({totalItems} قطعة — {totalPrice} ريال)
+                  شوف السلة وأكد الطلب ({totalItems} قطعة — {totalPrice} ريال)
                 </button>
               )}
             </div>

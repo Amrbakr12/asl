@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 
 // Zod schema for form validation
 const orderSchema = z.object({
-  name: z.string().min(3, "الرجاء إدخال الاسم الكامل (3 أحرف على الأقل)"),
-  address: z.string().min(10, "الرجاء إدخال العنوان بالتفصيل (10 أحرف على الأقل)"),
-  size: z.enum(["S", "M", "L", "XL", "XXL"], { message: "الرجاء اختيار المقاس" }),
-  color: z.enum(["أبيض", "أسود", "زيتوني"], { message: "الرجاء اختيار اللون" }),
+  name: z.string().min(3, "من فضلك اكتب الاسم الكامل (3 حروف على الأقل)"),
+  address: z.string().min(10, "من فضلك اكتب العنوان بالتفصيل (10 حروف على الأقل)"),
+  size: z.enum(["S", "M", "L", "XL", "XXL"], { message: "من فضلك اختار المقاس" }),
+  color: z.enum(["أبيض", "أسود", "زيتوني"], { message: "من فضلك اختار اللون" }),
 });
 
 type OrderFormData = z.infer<typeof orderSchema>;
@@ -60,7 +60,7 @@ export default function OrderForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
-      toast.error("الرجاء تصحيح الأخطاء في النموذج");
+      toast.error("من فضلك صحح الأخطاء في الفورم");
       return;
     }
 
@@ -74,15 +74,15 @@ export default function OrderForm() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.message || "فشل إرسال الطلب");
+        throw new Error(data.message || "ماعرفناش نبعت الطلب");
       }
 
       setIsSuccess(true);
-      toast.success("🎉 تم تسجيل طلبك بنجاح! سنتواصل معك قريباً.", { duration: 6000 });
+      toast.success("🎉 طلبك اتسجل بنجاح! هنتواصل معاك قريب.", { duration: 6000 });
       setFormData({ size: "L" });
     } catch (err) {
       console.error(err);
-      toast.error("حدث خطأ أثناء إرسال الطلب. الرجاء المحاولة مرة أخرى.");
+      toast.error("حصل مشكلة وإحنا بنبعت الطلب. جرّب تاني.");
     } finally {
       setIsLoading(false);
     }
@@ -102,20 +102,20 @@ export default function OrderForm() {
             className="text-4xl font-black mb-4"
             style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif" }}
           >
-            تم تسجيل طلبك بنجاح! 🎉
+            طلبك اتسجل بنجاح! 🎉
           </h2>
           <p
             className="text-lg mb-8"
             style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}
           >
-            شكراً على ثقتك بنا. سيتواصل معك فريقنا خلال 24 ساعة لتأكيد الطلب والتوصيل.
+            شكرًا على ثقتك فينا. فريقنا هيتواصل معاك خلال 24 ساعة عشان تأكيد الطلب والتوصيل.
           </p>
           <button
             onClick={() => setIsSuccess(false)}
             className="btn-primary text-white font-bold py-3 px-10 rounded-2xl cursor-pointer"
             style={{ fontFamily: "Cairo, sans-serif" }}
           >
-            تقديم طلب آخر
+            اعمل طلب جديد
           </button>
         </div>
       </section>
@@ -134,10 +134,10 @@ export default function OrderForm() {
             className="text-4xl md:text-5xl font-black mb-4"
             style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif" }}
           >
-            أكمل طلبك الآن
+            كمّل طلبك دلوقتي
           </h2>
           <p style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>
-            أملأ النموذج أدناه وسنتواصل معك لتأكيد الطلب
+            املى الفورم اللي تحت وإحنا هنتواصل معاك لتأكيد الطلب
           </p>
           <div className="section-divider mx-auto mt-6" />
         </div>
@@ -164,7 +164,7 @@ export default function OrderForm() {
               <input
                 id="name"
                 type="text"
-                placeholder="مثال: عبدالله محمد الأحمد"
+                placeholder="مثال: أحمد محمد عبدالله"
                 value={formData.name ?? ""}
                 onChange={(e) => handleChange("name", e.target.value)}
                 className="form-input w-full py-4 px-5 text-base"
@@ -197,7 +197,7 @@ export default function OrderForm() {
               <textarea
                 id="address"
                 rows={4}
-                placeholder="مثال: الرياض، حي النخيل، شارع الأمير سلطان، رقم المبنى 12"
+                placeholder="مثال: القاهرة، مدينة نصر، شارع عباس العقاد، عمارة 12"
                 value={formData.address ?? ""}
                 onChange={(e) => handleChange("address", e.target.value)}
                 className="form-input w-full py-4 px-5 text-base resize-none"
@@ -245,7 +245,7 @@ export default function OrderForm() {
                   }}
                   disabled={isLoading}
                 >
-                  <option value="">اختر المقاس</option>
+                  <option value="">اختار المقاس</option>
                   {sizeOptions.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
@@ -341,7 +341,7 @@ export default function OrderForm() {
                 </>
               ) : (
                 <>
-                  <span>تأكيد الطلب</span>
+                  <span>أكد الطلب</span>
                   <span>✦</span>
                 </>
               )}
@@ -351,7 +351,7 @@ export default function OrderForm() {
               className="text-center text-xs"
               style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}
             >
-              بياناتك آمنة ومحمية تماماً 🔒 · لن نشارك معلوماتك مع أي طرف ثالث
+              بياناتك آمنة ومحمية تمامًا 🔒 · مش بنشارك معلوماتك مع أي طرف تالت
             </p>
           </form>
         </div>

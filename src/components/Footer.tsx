@@ -18,8 +18,8 @@ export default function Footer() {
               className="text-sm leading-relaxed"
               style={{ color: "rgba(255,255,255,0.45)", fontFamily: "Cairo, sans-serif" }}
             >
-              نحن نؤمن بأن الأصالة ليست مجرد كلمة، بل هي أسلوب حياة.
-              كل تيشيرت نصنعه يحمل روح الهوية العربية الأصيلة.
+              إحنا مؤمنين إن الأصالة مش مجرد كلمة، دي طريقة حياة.
+              كل تيشيرت بنعمله فيه روح الهوية العربية الأصيلة.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export default function Footer() {
               {[
                 { label: "الرئيسية", href: "#" },
                 { label: "المنتجات", href: "#products" },
-                { label: "اطلب الآن", href: "#order-section" },
+                { label: "اطلب دلوقتي", href: "#order-section" },
               ].map((link) => (
                 <li key={link.label}>
                   <a
@@ -65,10 +65,10 @@ export default function Footer() {
               >
                 <span>📞</span>
                 <a
-                  href="tel:+966500000000"
+                  href="tel:+201000000000"
                   className="hover:text-[var(--primary-light)] transition-colors"
                 >
-                  ‪+966 50 000 0000‬
+                  +20 100 000 0000
                 </a>
               </p>
               <p
@@ -77,10 +77,10 @@ export default function Footer() {
               >
                 <span>✉️</span>
                 <a
-                  href="mailto:hello@asl.sa"
+                  href="mailto:hello@asl.eg"
                   className="hover:text-[var(--primary-light)] transition-colors"
                 >
-                  hello@asl.sa
+                  hello@asl.eg
                 </a>
               </p>
               <p
@@ -88,7 +88,7 @@ export default function Footer() {
                 style={{ color: "rgba(255,255,255,0.45)", fontFamily: "Cairo, sans-serif" }}
               >
                 <span>📍</span>
-                الرياض، المملكة العربية السعودية
+                القاهرة، مصر
               </p>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function Footer() {
               className="text-xs"
               style={{ color: "rgba(255,255,255,0.3)", fontFamily: "Cairo, sans-serif" }}
             >
-              صُنع بـ ❤ في المملكة العربية السعودية
+              معمول بـ ❤ في مصر
             </p>
           </div>
         </div>

@@ -54,9 +54,9 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
               className={`text-xl md:text-2xl leading-relaxed mb-10 max-w-lg transition-all duration-1000 delay-200 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
               style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}
             >
-              تيشيرتات فاخرة مستوحاة من عمق الهوية العربية.
+              تيشيرتات شيك بطابع عربي أصيل.
               <br />
-              <strong style={{ color: "var(--charcoal)" }}>جودة استثنائية. تصميم لا يُنسى.</strong>
+              <strong style={{ color: "var(--charcoal)" }}>خامة ممتازة. شكل يفضل معاك.</strong>
             </p>
 
             {/* Stats */}
@@ -64,8 +64,8 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
               className={`flex gap-8 mb-12 transition-all duration-1000 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
             >
               {[
-                { num: "+500", label: "عميل راضٍ" },
-                { num: "5★", label: "تقييم العملاء" },
+                { num: "+500", label: "عميل مبسوط" },
+                { num: "5★", label: "تقييم الناس" },
                 { num: "100%", label: "قطن طبيعي" },
               ].map((stat, i) => (
                 <div key={i} className="text-center">
@@ -89,7 +89,7 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
                 className="btn-primary pulse-glow text-white font-bold py-4 px-10 rounded-2xl text-lg cursor-pointer flex items-center justify-center gap-3"
                 style={{ fontFamily: "Cairo, sans-serif" }}
               >
-                <span>اطلب الآن</span>
+                <span>اطلب دلوقتي</span>
                 <span className="text-xl">→</span>
               </button>
               <a
@@ -97,7 +97,7 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
                 className="flex items-center justify-center gap-2 font-semibold py-4 px-8 rounded-2xl text-lg transition-all duration-300 hover:bg-[var(--sand)] cursor-pointer"
                 style={{ color: "var(--charcoal)", border: "2px solid var(--border)", fontFamily: "Cairo, sans-serif" }}
               >
-                اعرف أكثر
+                اعرف أكتر
               </a>
             </div>
           </div>
@@ -148,7 +148,7 @@ export default function HeroSection({ onOrderClick }: HeroSectionProps) {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-        <span className="text-xs" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>اسحب للأسفل</span>
+        <span className="text-xs" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>انزل لتحت</span>
         <div className="w-px h-8" style={{ background: "linear-gradient(to bottom, var(--muted), transparent)" }} />
       </div>
     </section>

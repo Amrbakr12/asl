@@ -37,7 +37,7 @@ export default function Home() {
           className="btn-primary text-white font-bold py-2 px-6 rounded-full text-sm cursor-pointer"
           style={{ fontFamily: "Cairo, sans-serif" }}
         >
-          اطلب الآن
+          اطلب دلوقتي
         </button>
       </nav>
 
@@ -63,22 +63,22 @@ function WhyUsSection() {
     {
       icon: "✦",
       title: "قطن فاخر 100%",
-      desc: "نستخدم أجود أنواع القطن المصري لضمان الراحة الكاملة طوال اليوم.",
+      desc: "بنستخدم أجود أنواع القطن المصري عشان تفضل مرتاح طول اليوم.",
     },
     {
       icon: "◈",
       title: "تصميم أصيل",
-      desc: "كل قطعة تحمل هوية عربية عميقة مستوحاة من الثقافة الأصيلة.",
+      desc: "كل قطعة فيها روح عربية واضحة مستوحاة من ثقافتنا الأصيلة.",
     },
     {
       icon: "◉",
       title: "توصيل سريع",
-      desc: "نوصل طلبك لباب بيتك خلال 3-5 أيام عمل في جميع أنحاء المملكة.",
+      desc: "بنوصل طلبك لحد باب البيت خلال 3-5 أيام عمل في كل المحافظات.",
     },
     {
       icon: "◎",
       title: "جودة مضمونة",
-      desc: "إذا لم تكن راضياً عن المنتج، نضمن لك استرداد كامل لمدة 14 يوم.",
+      desc: "لو المنتج معجبكش، ليك استرجاع كامل خلال 14 يوم.",
     },
   ];
 
@@ -90,9 +90,9 @@ function WhyUsSection() {
             <span className="badge">لماذا أصل؟</span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-white mb-4" style={{ fontFamily: "Cairo, sans-serif" }}>
-            الجودة ليست خياراً،
+            الجودة مش اختيار،
             <br />
-            <span className="shimmer-text">هي معيارنا</span>
+            <span className="shimmer-text">دي طريقتنا</span>
           </h2>
         </div>
 
