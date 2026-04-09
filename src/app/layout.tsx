@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { CartProvider } from "@/context/CartContext";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -31,36 +32,38 @@ export default function RootLayout({
   return (
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[var(--background)]">
-        {children}
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              fontFamily: "Cairo, sans-serif",
-              direction: "rtl",
-              borderRadius: "12px",
-              padding: "14px 20px",
-              boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
-            },
-            success: {
+        <CartProvider>
+          {children}
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              duration: 4000,
               style: {
-                background: "#4A5738",
-                color: "white",
+                fontFamily: "Cairo, sans-serif",
+                direction: "rtl",
+                borderRadius: "12px",
+                padding: "14px 20px",
+                boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
               },
-              iconTheme: {
-                primary: "white",
-                secondary: "#4A5738",
+              success: {
+                style: {
+                  background: "#4A5738",
+                  color: "white",
+                },
+                iconTheme: {
+                  primary: "white",
+                  secondary: "#4A5738",
+                },
               },
-            },
-            error: {
-              style: {
-                background: "#7B2D2D",
-                color: "white",
+              error: {
+                style: {
+                  background: "#7B2D2D",
+                  color: "white",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </CartProvider>
       </body>
     </html>
   );

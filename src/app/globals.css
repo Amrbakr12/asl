@@ -265,3 +265,10 @@ body {
   border-radius: 100px;
   letter-spacing: 0.05em;
 }
+
+/* Cart drawer slide-in from right (RTL: from left edge of screen) */
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0.5; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
