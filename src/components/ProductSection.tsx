@@ -1,48 +1,13 @@
 "use client";
 
-import { useState } from "react";
-
-const products = [
-  {
-    id: 1,
-    name: "تيشيرت أصل الكلاسيكي – أبيض",
-    color: "أبيض",
-    colorCode: "#F5F5F0",
-    image: "/tshirt-white.png",
-    price: "١٩٩ ريال",
-    tag: "الأكثر مبيعاً",
-  },
-  {
-    id: 2,
-    name: "تيشيرت أصل الكلاسيكي – أسود",
-    color: "أسود",
-    colorCode: "#2C2A26",
-    image: "/tshirt-black.png",
-    price: "١٩٩ ريال",
-    tag: "جديد",
-  },
-  {
-    id: 3,
-    name: "تيشيرت أصل الكلاسيكي – زيتوني",
-    color: "زيتوني",
-    colorCode: "#4A5738",
-    image: "/tshirt-olive.png",
-    price: "١٩٩ ريال",
-    tag: "محدود",
-  },
-];
-
-const availableSizes = ["S", "M", "L", "XL", "XXL"];
+import Link from "next/link";
+import { products } from "@/lib/products";
 
 export default function ProductSection() {
-  const [activeProduct, setActiveProduct] = useState(0);
-  const [activeSize, setActiveSize] = useState("L");
-
-  const product = products[activeProduct];
-
   return (
     <section id="products" className="py-24 px-6" style={{ background: "var(--sand-light)" }}>
       <div className="max-w-6xl mx-auto">
+
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-block mb-4">
@@ -57,153 +22,116 @@ export default function ProductSection() {
             <span className="gradient-text">عبّر عن أصلك</span>
           </h2>
           <div className="section-divider mx-auto mt-6" />
-        </div>
-
-        {/* Main Product Display */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Image */}
-          <div className="relative flex justify-center">
-            <div
-              className="w-72 h-72 md:w-96 md:h-96 rounded-3xl flex items-center justify-center transition-all duration-500"
-              style={{
-                background: `linear-gradient(135deg, ${product.colorCode}22, ${product.colorCode}11)`,
-                border: `2px solid ${product.colorCode}44`,
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-64 h-64 md:w-80 md:h-80 object-contain transition-all duration-700"
-                style={{ filter: "drop-shadow(0 20px 30px rgba(0,0,0,0.15))" }}
-              />
-            </div>
-            {product.tag && (
-              <div className="absolute top-4 right-4 badge">{product.tag}</div>
-            )}
-          </div>
-
-          {/* Product Info */}
-          <div>
-            <h3
-              className="text-3xl font-black mb-2"
-              style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif" }}
-            >
-              {product.name}
-            </h3>
-            <p
-              className="text-2xl font-bold mb-8"
-              style={{ color: "var(--primary)", fontFamily: "Cairo, sans-serif" }}
-            >
-              {product.price}
-            </p>
-
-            {/* Color Selector */}
-            <div className="mb-8">
-              <p
-                className="text-sm font-bold mb-4 uppercase tracking-wider"
-                style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}
-              >
-                اللون: <span style={{ color: "var(--charcoal)" }}>{product.color}</span>
-              </p>
-              <div className="flex gap-4">
-                {products.map((p, i) => (
-                  <button
-                    key={p.id}
-                    id={`color-swatch-${p.id}`}
-                    onClick={() => setActiveProduct(i)}
-                    className={`color-swatch w-10 h-10 rounded-full border-3 transition-all duration-200 cursor-pointer ${activeProduct === i ? "active" : ""}`}
-                    style={{
-                      backgroundColor: p.colorCode,
-                      border: `3px solid ${p.colorCode === "#F5F5F0" ? "#ccc" : p.colorCode}`,
-                      boxShadow:
-                        activeProduct === i
-                          ? `0 0 0 3px white, 0 0 0 5px var(--primary)`
-                          : "0 2px 8px rgba(0,0,0,0.15)",
-                      transform: activeProduct === i ? "scale(1.15)" : "scale(1)",
-                    }}
-                    title={p.color}
-                    aria-label={`اختر اللون ${p.color}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Size Selector */}
-            <div className="mb-8">
-              <p
-                className="text-sm font-bold mb-4 uppercase tracking-wider"
-                style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}
-              >
-                المقاس: <span style={{ color: "var(--charcoal)" }}>{activeSize}</span>
-              </p>
-              <div className="flex gap-3 flex-wrap">
-                {availableSizes.map((size) => (
-                  <button
-                    key={size}
-                    id={`size-btn-${size}`}
-                    onClick={() => setActiveSize(size)}
-                    className="w-14 h-14 rounded-xl font-bold text-sm transition-all duration-200 cursor-pointer"
-                    style={{
-                      background: activeSize === size ? "var(--charcoal)" : "white",
-                      color: activeSize === size ? "white" : "var(--charcoal)",
-                      border: `2px solid ${activeSize === size ? "var(--charcoal)" : "var(--border)"}`,
-                      fontFamily: "Cairo, sans-serif",
-                      transform: activeSize === size ? "scale(1.05)" : "scale(1)",
-                      boxShadow: activeSize === size ? "0 4px 15px rgba(0,0,0,0.2)" : "none",
-                    }}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Size Guide */}
-            <div
-              className="p-4 rounded-xl text-sm leading-relaxed"
-              style={{ background: "rgba(139, 105, 20, 0.08)", border: "1px solid rgba(139, 105, 20, 0.2)", fontFamily: "Cairo, sans-serif", color: "var(--muted)" }}
-            >
-              <strong style={{ color: "var(--primary)" }}>دليل المقاسات:</strong> S للصدر 90-95 سم، M للصدر 96-102 سم، L للصدر 103-110 سم، XL للصدر 111-118 سم، XXL للصدر 119-126 سم.
-            </div>
-          </div>
+          <p className="mt-6 text-base" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>
+            اضغط على أي منتج لرؤية التفاصيل وإتمام طلبك
+          </p>
         </div>
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {products.map((p, i) => (
-            <div
+          {products.map((p) => (
+            <Link
               key={p.id}
-              className="product-card bg-white rounded-3xl overflow-hidden cursor-pointer shadow-sm"
+              href={`/product/${p.slug}`}
+              id={`product-card-${p.slug}`}
+              className="product-card bg-white rounded-3xl overflow-hidden shadow-sm block group"
               style={{
-                border: `2px solid ${activeProduct === i ? "var(--primary)" : "var(--border)"}`,
+                border: "2px solid var(--border)",
+                textDecoration: "none",
               }}
-              onClick={() => setActiveProduct(i)}
             >
+              {/* Image area */}
               <div
-                className="h-56 flex items-center justify-center p-6"
-                style={{ background: `linear-gradient(135deg, ${p.colorCode}18, ${p.colorCode}0a)` }}
+                className="relative h-64 flex items-center justify-center p-6 overflow-hidden"
+                style={{
+                  background: `linear-gradient(135deg, ${p.colorCode}18, ${p.colorCode}0a)`,
+                }}
               >
+                {/* Hover glow */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background: `radial-gradient(circle at center, ${p.colorCode}22, transparent 70%)`,
+                  }}
+                />
+
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={p.image}
                   alt={p.name}
-                  className="h-44 w-full object-contain"
-                  style={{ filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.1))" }}
+                  className="h-48 w-full object-contain relative z-10 transition-transform duration-500 group-hover:scale-105"
+                  style={{ filter: "drop-shadow(0 10px 20px rgba(0,0,0,0.12))" }}
                 />
+
+                {/* Tag badge */}
+                {p.tag && (
+                  <div className="absolute top-4 right-4 badge z-10">{p.tag}</div>
+                )}
+
+                {/* "View" overlay on hover */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20"
+                  style={{ background: "rgba(0,0,0,0.04)" }}>
+                  <span
+                    className="px-6 py-2 rounded-full text-sm font-bold translate-y-3 group-hover:translate-y-0 transition-transform duration-300"
+                    style={{
+                      background: "var(--charcoal)",
+                      color: "white",
+                      fontFamily: "Cairo, sans-serif",
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+                    }}
+                  >
+                    عرض التفاصيل ←
+                  </span>
+                </div>
               </div>
+
+              {/* Card body */}
               <div className="p-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h4 className="font-bold text-sm leading-snug" style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif", maxWidth: "70%" }}>
+                <div className="flex justify-between items-start mb-3">
+                  <h3
+                    className="font-black text-base leading-snug"
+                    style={{ color: "var(--charcoal)", fontFamily: "Cairo, sans-serif", maxWidth: "65%" }}
+                  >
                     {p.name}
-                  </h4>
+                  </h3>
                   {p.tag && <span className="badge text-xs">{p.tag}</span>}
                 </div>
-                <p className="text-lg font-black" style={{ color: "var(--primary)", fontFamily: "Cairo, sans-serif" }}>
-                  {p.price}
-                </p>
+
+                {/* Color swatch preview */}
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="w-5 h-5 rounded-full border-2"
+                    style={{
+                      backgroundColor: p.colorCode,
+                      borderColor: p.colorCode === "#F5F5F0" ? "#ccc" : p.colorCode,
+                    }}
+                  />
+                  <span className="text-xs" style={{ color: "var(--muted)", fontFamily: "Cairo, sans-serif" }}>
+                    {p.color}
+                  </span>
+                </div>
+
+                {/* Price + CTA row */}
+                <div className="flex items-center justify-between">
+                  <p
+                    className="text-xl font-black"
+                    style={{ color: "var(--primary)", fontFamily: "Cairo, sans-serif" }}
+                  >
+                    {p.price}
+                  </p>
+                  <span
+                    className="text-xs font-bold px-4 py-2 rounded-xl transition-all duration-300 group-hover:bg-[var(--charcoal)] group-hover:text-white"
+                    style={{
+                      border: "1.5px solid var(--border)",
+                      color: "var(--charcoal)",
+                      fontFamily: "Cairo, sans-serif",
+                    }}
+                  >
+                    اطلب الآن
+                  </span>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

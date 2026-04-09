@@ -3,26 +3,36 @@
 import { useRef } from "react";
 import HeroSection from "@/components/HeroSection";
 import ProductSection from "@/components/ProductSection";
-import OrderForm from "@/components/OrderForm";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const orderFormRef = useRef<HTMLDivElement>(null);
+  const productsRef = useRef<HTMLDivElement>(null);
 
-  const scrollToOrder = () => {
-    orderFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToProducts = () => {
+    productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <main className="min-h-screen">
       {/* Navigation */}
-      <nav className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 md:px-12 py-4"
-        style={{ background: "rgba(253, 248, 239, 0.92)", backdropFilter: "blur(16px)", borderBottom: "1px solid rgba(226, 213, 191, 0.5)" }}>
+      <nav
+        className="fixed top-0 right-0 left-0 z-50 flex items-center justify-between px-6 md:px-12 py-4"
+        style={{
+          background: "rgba(253, 248, 239, 0.92)",
+          backdropFilter: "blur(16px)",
+          borderBottom: "1px solid rgba(226, 213, 191, 0.5)",
+        }}
+      >
         <div className="flex items-center gap-2">
-          <span className="text-3xl font-black shimmer-text" style={{ fontFamily: "Cairo, sans-serif" }}>أصل</span>
+          <span
+            className="text-3xl font-black shimmer-text"
+            style={{ fontFamily: "Cairo, sans-serif" }}
+          >
+            أصل
+          </span>
         </div>
         <button
-          onClick={scrollToOrder}
+          onClick={scrollToProducts}
           id="nav-order-btn"
           className="btn-primary text-white font-bold py-2 px-6 rounded-full text-sm cursor-pointer"
           style={{ fontFamily: "Cairo, sans-serif" }}
@@ -32,18 +42,15 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <HeroSection onOrderClick={scrollToOrder} />
+      <HeroSection onOrderClick={scrollToProducts} />
 
       {/* Products Section */}
-      <ProductSection />
+      <div ref={productsRef}>
+        <ProductSection />
+      </div>
 
       {/* Features / Why Us */}
       <WhyUsSection />
-
-      {/* Order Form */}
-      <div ref={orderFormRef} id="order-section">
-        <OrderForm />
-      </div>
 
       {/* Footer */}
       <Footer />
