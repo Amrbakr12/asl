@@ -62,7 +62,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
     const result = orderSchema.safeParse({ name, address });
     if (!result.success) {
       const errs: FormErrors = {};
-      result.error.errors.forEach((e) => {
+      result.error.issues.forEach((e) => {
         const f = e.path[0] as keyof FormErrors;
         if (!errs[f]) errs[f] = e.message;
       });

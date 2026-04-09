@@ -44,7 +44,7 @@ export default function OrderForm() {
     const result = orderSchema.safeParse(formData);
     if (!result.success) {
       const newErrors: FormErrors = {};
-      result.error.errors.forEach((err) => {
+      result.error.issues.forEach((err) => {
         const field = err.path[0] as keyof OrderFormData;
         if (field && !newErrors[field]) {
           newErrors[field] = err.message;

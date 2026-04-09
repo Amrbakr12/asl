@@ -12,6 +12,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://asl.vercel.app"),
   title: "أصل | تيشيرتات أصيلة للرجال",
   description:
     "اكتشف مجموعة أصل من التيشيرتات الفاخرة ذات الهوية العربية الأصيلة. جودة عالية، تصميم راقٍ، وأناقة حقيقية.",
