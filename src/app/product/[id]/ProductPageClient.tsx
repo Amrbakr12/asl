@@ -20,6 +20,13 @@ const orderSchema = z.object({
 
 type FormErrors = Partial<Record<"name" | "phone" | "address", string>>;
 
+function normalizePhoneDigits(value: string) {
+  // Convert Arabic-Indic and Eastern Arabic digits to ASCII digits for validation.
+  return value
+    .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 1632))
+    .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 1776));
+}
+
 export default function ProductPageClient({ product }: { product: Product }) {
   const router = useRouter();
   const { items, addItem, removeItem, updateQty, clearCart, totalItems, totalPrice } = useCart();
@@ -64,7 +71,8 @@ export default function ProductPageClient({ product }: { product: Product }) {
   };
 
   const validate = () => {
-    const result = orderSchema.safeParse({ name, phone, address });
+    const normalizedPhone = normalizePhoneDigits(phone).replace(/\s+/g, "");
+    const result = orderSchema.safeParse({ name, phone: normalizedPhone, address });
     if (!result.success) {
       const errs: FormErrors = {};
       result.error.issues.forEach((e) => {
@@ -88,7 +96,7 @@ export default function ProductPageClient({ product }: { product: Product }) {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, phone, address, notes, items }),
+        body: JSON.stringify({ name, phone: normalizePhoneDigits(phone).replace(/\s+/g, ""), address, notes, items }),
       });
       if (!res.ok) throw new Error();
       setIsSuccess(true);
@@ -258,7 +266,9 @@ export default function ProductPageClient({ product }: { product: Product }) {
                   </div>
                   <div>
                     <input id="cart-phone" type="tel" placeholder="رقم الموبايل *"
-                      value={phone} onChange={(e) => { setPhone(e.target.value); setErrors(p => ({ ...p, phone: undefined })); }}
+                      value={phone} onChange={(e) => { setPhone(normalizePhoneDigits(e.target.value)); setErrors(p => ({ ...p, phone: undefined })); }}
+                      inputMode="numeric"
+                      dir="ltr"
                       className="form-input w-full py-3 px-4 text-sm"
                       style={{ fontFamily: "Cairo, sans-serif", color: "var(--charcoal)", borderColor: errors.phone ? "#c0392b" : undefined }}
                       disabled={isLoading} />
